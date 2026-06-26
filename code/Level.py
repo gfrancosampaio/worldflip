@@ -3,7 +3,7 @@ import sys
 import pygame
 from pygame import Surface
 
-from code.Const import COLLISION_MAP_0, COLLISION_MAP_1
+from code.Const import COLLISION_MAP_0, COLLISION_MAP_1, WIN_HEIGHT
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from code.Platform import Platform
@@ -44,6 +44,9 @@ class Level:
                 self.player.apply_gravity(COLLISION_MAP_0)
             else:
                 self.player.apply_gravity(COLLISION_MAP_1)
+
+            if self.player.rect.top > 450:
+                return
 
             self.window.fill((0, 0, 0))
 
