@@ -18,9 +18,9 @@ class Menu:
 
             for i in range(len(MENU_OPTION)):
                 if i == menu_option:
-                    self.menu_text(90, MENU_OPTION[i], C_YELLOW, ((WIN_WIDTH / 2), 270 + 80 * i))
+                    self.menu_text(80, MENU_OPTION[i], C_YELLOW, ((WIN_WIDTH / 2), 270 + 80 * i))
                 else:
-                    self.menu_text(90, MENU_OPTION[i], C_WHITE, ((WIN_WIDTH / 2), 270 + 80 * i))
+                    self.menu_text(80, MENU_OPTION[i], C_WHITE, ((WIN_WIDTH / 2), 270 + 80 * i))
             pygame.display.flip()
 
             for event in pygame.event.get():
@@ -50,7 +50,7 @@ class Menu:
 
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
-        text_font: Font = pygame.font.SysFont(name='Alagard', size=text_size)
+        text_font: Font = pygame.font.SysFont(name='Impact', size=text_size)
         text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
         text_rect: Rect = text_surf.get_rect(center=text_center_pos)
         self.window.blit(source=text_surf, dest=text_rect)
