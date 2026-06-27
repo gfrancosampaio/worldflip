@@ -1,4 +1,6 @@
 # C
+import pygame
+
 C_WHITE = (255, 255, 255)
 C_YELLOW = (255, 255, 128)
 
@@ -91,6 +93,12 @@ COLLISION_MAPS = {
     'Level1': [COLLISION_MAP_LEVEL1_0, COLLISION_MAP_LEVEL1_1],
     'Level2': [COLLISION_MAP_LEVEL2_0, COLLISION_MAP_LEVEL2_1]
 }
+
+# K
+KEY_LEFT = pygame.K_LEFT
+KEY_RIGHT = pygame.K_RIGHT
+KEY_JUMP = pygame.K_SPACE
+
 # M
 MENU_OPTION = ('PLAY',
                'QUIT')
@@ -103,9 +111,14 @@ PLAYER_SPAWN = {
     'Level1': (10, 350),
     'Level2': (10, 10)
 }
+PORTAL_SPAWN = {
+    'Level1': (755, 50),
+    'Level2': (755, 300),
+}
 
 # T
 TILE_SIZE = 25
+TITLECARD_TIME = 1500  # 1.5 seconds
 
 # W
 WIN_WIDTH = 800

@@ -1,5 +1,5 @@
 import pygame
-from code.Const import (PLAYER_SPEED, PLAYER_JUMP, PLAYER_GRAVITY, WIN_WIDTH, TILE_SIZE)
+from code.Const import (PLAYER_SPEED, PLAYER_JUMP, PLAYER_GRAVITY, WIN_WIDTH, TILE_SIZE, KEY_LEFT, KEY_RIGHT)
 from code.Entity import Entity
 
 
@@ -20,10 +20,10 @@ class Player(Entity):
     def move(self, keys):
         self.velocity_x = 0
 
-        if keys[pygame.K_LEFT]:
+        if keys[KEY_LEFT]:
             self.velocity_x = -PLAYER_SPEED
 
-        if keys[pygame.K_RIGHT]:
+        if keys[KEY_RIGHT]:
             self.velocity_x = PLAYER_SPEED
 
         self.rect.x += self.velocity_x
@@ -39,10 +39,12 @@ class Player(Entity):
             self.velocity_y = PLAYER_JUMP
             self.on_ground = False
 
+    # Jump gravity
     def apply_gravity(self):
         self.velocity_y += PLAYER_GRAVITY
         self.rect.y += self.velocity_y
 
+    # Hitboxes
     def is_solid(self, collision_map, tile_x, tile_y):
         if tile_x < 0:
             return False
@@ -58,7 +60,7 @@ class Player(Entity):
         top_tile = self.rect.top // TILE_SIZE
         bottom_tile = (self.rect.bottom - 1) // TILE_SIZE
 
-        # andando para direita
+        # moving right hitbox
         if self.velocity_x > 0:
             tile_x = self.rect.right // TILE_SIZE
             for tile_y in range(top_tile, bottom_tile + 1):
@@ -66,7 +68,7 @@ class Player(Entity):
                     self.rect.right = tile_x * TILE_SIZE
                     break
 
-        # andando para esquerda
+        # moving left hitbox
         elif self.velocity_x < 0:
             tile_x = self.rect.left // TILE_SIZE
             for tile_y in range(top_tile, bottom_tile + 1):

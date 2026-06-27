@@ -3,7 +3,8 @@ import sys
 import pygame
 from pygame import Surface
 
-from code.Const import COLLISION_MAP_LEVEL1_0, COLLISION_MAP_LEVEL1_1, PLAYER_SPAWN, COLLISION_MAPS
+from code.Const import COLLISION_MAP_LEVEL1_0, COLLISION_MAP_LEVEL1_1, PLAYER_SPAWN, COLLISION_MAPS, PORTAL_SPAWN, \
+    KEY_JUMP
 from code.EntityFactory import EntityFactory
 from code.Platform import Platform
 from code.Player import Player
@@ -17,8 +18,10 @@ class Level:
         self.collision_maps = COLLISION_MAPS[self.name]
         self.world_state = 0
         spawn_pos = PLAYER_SPAWN[self.name]
+        portal_pos = PORTAL_SPAWN[self.name]
+        next_level = f'Level{int(self.name[-1]) + 1}'
         self.player = Player('Player', spawn_pos)
-        self.portal = Portal('Portal1', (755, 60), f'Level{int(self.name[-1]) + 1}')
+        self.portal = EntityFactory.get_entity('Portal', portal_pos, next_level)
         self.platform_list: list[Platform] = []
         self.platform_list.extend(EntityFactory.get_entity(self.name + 'Plat'))
 
@@ -38,7 +41,7 @@ class Level:
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
+                    if event.key == KEY_JUMP:
                         if self.player.on_ground:
                             self.player.jump()
                             self.world_state = 1 - self.world_state
@@ -53,11 +56,15 @@ class Level:
 
             # player fell
             if self.player.rect.top > self.window.get_height():
-                return
+                return 'DEAD'
 
             # portal hitbox (next level)
             if self.player.rect.colliderect(self.portal.rect):
-                return f'Level{int(self.name[-1]) + 1}'
+                # end of game demonstration
+                if self.name == 'Level2':
+                    return 'END'
+                # go to next level (only to level 2 in DEMO)
+                return self.portal.next_level
 
             # draw
             for platform in self.platform_list:

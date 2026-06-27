@@ -2,7 +2,7 @@ import sys
 
 import pygame
 
-from code.Const import WIN_WIDTH, WIN_HEIGHT, MENU_OPTION
+from code.Const import WIN_WIDTH, WIN_HEIGHT, MENU_OPTION, TITLECARD_TIME
 from code.Level import Level
 from code.Menu import Menu
 
@@ -31,12 +31,18 @@ class Game:
                     # level start
                     level = Level(self.window, level_name)
                     result = level.run()
+                    if result == 'DEAD':
+                        self.fail_screen()
+                        continue
+                    if result == 'END':
+                        self.end_screen()
+                        break
 
                     # next level
                     if result is None:
                         break
                     level_name = result
-                    self.level_index = int(level_name [-1])
+                    self.level_index = int(level_name[-1])
 
             # exit option
             elif menu_return == MENU_OPTION[1]:
@@ -61,5 +67,31 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-            if pygame.time.get_ticks() - start_time >= 2000:
+            if pygame.time.get_ticks() - start_time >= TITLECARD_TIME:
                 return
+
+    # Die/Try Again screen
+    def fail_screen(self):
+        surf = pygame.image.load('./asset/Continue.png').convert_alpha()
+        rect = surf.get_rect(left=0, top=0)
+
+        while True:
+            self.window.blit(surf, rect)
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        return
+
+    # DEMO end screen
+    def end_screen(self):
+        surf = pygame.image.load('./asset/ThankYou.png').convert_alpha()
+        rect = surf.get_rect(left=0, top=0)
+        while True:
+            self.window.blit(surf, rect)
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        return

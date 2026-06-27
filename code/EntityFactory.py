@@ -1,11 +1,12 @@
 from code.Platform import Platform
 from code.Player import Player
+from code.Portal import Portal
 
 
 class EntityFactory:
 
     @staticmethod
-    def get_entity(entity_name: str):
+    def get_entity(entity_name: str, position=None, next_level=None):
         match entity_name:
             # level 1
             case 'Level1Plat':
@@ -23,4 +24,7 @@ class EntityFactory:
                 ]
 
             case 'Player':
-                return Player('Player', (0, 0))
+                return Player('Player', position)
+
+            case 'Portal':
+                return Portal('Portal', position, next_level)

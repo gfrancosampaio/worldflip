@@ -30,7 +30,7 @@ class Menu:
 
                 # menu keyboard event reader
                 if event.type == pygame.KEYDOWN:
-                    #down key
+                    # down key
                     if event.key == pygame.K_DOWN:
                         if menu_option < len(MENU_OPTION) - 1:
                             menu_option += 1
@@ -47,7 +47,6 @@ class Menu:
                     # space key(confirm)
                     if event.key == pygame.K_SPACE:
                         return MENU_OPTION[menu_option]
-
 
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
         text_font: Font = pygame.font.SysFont(name='Impact', size=text_size)
